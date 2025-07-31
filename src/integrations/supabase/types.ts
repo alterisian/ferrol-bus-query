@@ -14,7 +14,36 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      bus_routes: {
+        Row: {
+          created_at: string
+          destination: string
+          id: string
+          origin: string
+          service_id: string
+          stops: string[]
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          destination: string
+          id?: string
+          origin: string
+          service_id: string
+          stops: string[]
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          destination?: string
+          id?: string
+          origin?: string
+          service_id?: string
+          stops?: string[]
+          updated_at?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
