@@ -19,11 +19,23 @@ interface BusRoute {
 const Index = () => {
   const [query, setQuery] = useState("");
   const [results, setResults] = useState<BusRoute[]>([]);
+  const [allStops, setAllStops] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
   const { toast } = useToast();
 
-  // Run test on component mount
+  // Fetch all stops and run test on component mount
   useEffect(() => {
+    const fetchAllStops = async () => {
+      try {
+        const { data, error } = await supabase.rpc('get_all_stops');
+        if (error) throw error;
+        setAllStops(data?.map((row: any) => row.stop) || []);
+      } catch (error) {
+        console.error('Error fetching stops:', error);
+      }
+    };
+
+    fetchAllStops();
     testFerrolSearch();
   }, []);
 
@@ -84,6 +96,28 @@ const Index = () => {
             Search for bus routes by stop name in Ferrol, Galicia
           </p>
         </div>
+
+        {allStops.length > 0 && (
+          <Card className="mb-8">
+            <CardHeader>
+              <CardTitle className="text-lg">Available Stops</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="flex flex-wrap gap-2">
+                {allStops.map((stop) => (
+                  <Badge
+                    key={stop}
+                    variant="outline"
+                    className="cursor-pointer hover:bg-primary hover:text-primary-foreground"
+                    onClick={() => setQuery(stop)}
+                  >
+                    {stop}
+                  </Badge>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+        )}
 
         <div className="flex gap-4 mb-8">
           <div className="relative flex-1">
