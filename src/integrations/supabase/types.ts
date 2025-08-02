@@ -55,6 +55,16 @@ export type Database = {
           stop: string
         }[]
       }
+      search_bus_routes: {
+        Args: { search_term: string }
+        Returns: {
+          id: string
+          service_id: string
+          origin: string
+          destination: string
+          stops: string[]
+        }[]
+      }
     }
     Enums: {
       [_ in never]: never

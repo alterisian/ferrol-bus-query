@@ -51,11 +51,10 @@ const Index = () => {
 
     setLoading(true);
     try {
-      // Search for routes where any stop contains the search term
-      const { data, error } = await supabase
-        .from('bus_routes')
-        .select('*')
-        .filter('stops', 'cs', `{"${query.trim()}"}`);
+      // Search for routes using partial matching across origin, destination, and stops
+      const { data, error } = await (supabase as any).rpc('search_bus_routes', {
+        search_term: query.trim()
+      });
 
       if (error) {
         throw error;
