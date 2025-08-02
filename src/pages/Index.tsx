@@ -36,7 +36,7 @@ const Index = () => {
       const { data, error } = await supabase
         .from('bus_routes')
         .select('*')
-        .filter('stops', 'cs', `{"${query.trim()}"}`);
+        .filter('stops', 'cs', `{*${query.trim()}*}`);
 
       if (error) {
         throw error;
