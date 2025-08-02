@@ -40,7 +40,7 @@ const Index = () => {
     setLoading(true);
     try {
       // Use RPC function for array search
-      const { data, error } = await supabase
+      const { data, error } = await (supabase as any)
         .rpc('search_routes_by_stop', { search_term: query.trim() });
 
       if (error) {
@@ -50,7 +50,7 @@ const Index = () => {
       setResults(data || []);
       toast({
         title: "Search completed",
-        description: `Found ${data?.length || 0} routes containing "${query}"`,
+        description: `Found ${(data || []).length} routes containing "${query}"`,
       });
     } catch (error) {
       console.error('Search error:', error);
