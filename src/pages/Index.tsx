@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -6,6 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { Search, Bus, MapPin } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
+import { testFerrolSearch } from "@/utils/searchTest";
 
 interface BusRoute {
   id: string;
@@ -21,6 +22,11 @@ const Index = () => {
   const [loading, setLoading] = useState(false);
   const { toast } = useToast();
 
+  // Run test on component mount
+  useEffect(() => {
+    testFerrolSearch();
+  }, []);
+
   const handleSearch = async () => {
     if (!query.trim()) {
       toast({
@@ -33,10 +39,9 @@ const Index = () => {
 
     setLoading(true);
     try {
+      // Use RPC function for array search
       const { data, error } = await supabase
-        .from('bus_routes')
-        .select('*')
-        .filter('stops', 'cs', `{*${query.trim()}*}`);
+        .rpc('search_routes_by_stop', { search_term: query.trim() });
 
       if (error) {
         throw error;
