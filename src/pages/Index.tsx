@@ -39,9 +39,11 @@ const Index = () => {
 
     setLoading(true);
     try {
-      // Use RPC function for array search
-      const { data, error } = await (supabase as any)
-        .rpc('search_routes_by_stop', { search_term: query.trim() });
+      // Search for routes where any stop contains the search term
+      const { data, error } = await supabase
+        .from('bus_routes')
+        .select('*')
+        .filter('stops', 'cs', `{"${query.trim()}"}`);
 
       if (error) {
         throw error;

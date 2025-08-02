@@ -4,11 +4,11 @@ export async function testFerrolSearch(): Promise<boolean> {
   try {
     console.log("Testing Ferrol search...");
     
-    // Test the corrected search logic
+    // Test exact match search
     const { data, error } = await supabase
       .from('bus_routes')
       .select('*')
-      .filter('stops', 'cs', `{*Ferrol*}`);
+      .filter('stops', 'cs', `{"Ferrol E.F."}`);
     
     if (error) {
       console.error("Search error:", error);
