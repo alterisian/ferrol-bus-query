@@ -49,7 +49,12 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      get_all_stops: {
+        Args: Record<PropertyKey, never>
+        Returns: {
+          stop: string
+        }[]
+      }
     }
     Enums: {
       [_ in never]: never

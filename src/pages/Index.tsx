@@ -27,9 +27,9 @@ const Index = () => {
   useEffect(() => {
     const fetchAllStops = async () => {
       try {
-        const { data, error } = await supabase.rpc('get_all_stops');
+        const { data, error } = await (supabase as any).rpc('get_all_stops');
         if (error) throw error;
-        setAllStops(data?.map((row: any) => row.stop) || []);
+        setAllStops(data ? data.map((row: any) => row.stop) : []);
       } catch (error) {
         console.error('Error fetching stops:', error);
       }
