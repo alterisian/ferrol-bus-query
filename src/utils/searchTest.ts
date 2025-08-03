@@ -101,12 +101,41 @@ export async function testRoute40Search(): Promise<boolean> {
   }
 }
 
+export async function testPraiaSearch(): Promise<boolean> {
+  try {
+    console.log("Testing Praia search (beach - should return 9 routes)...");
+    
+    // Test using the search function for partial matching
+    const { data, error } = await (supabase as any).rpc('search_bus_routes', {
+      search_term: 'Praia'
+    });
+    
+    if (error) {
+      console.error("Search error:", error);
+      return false;
+    }
+    
+    console.log("Search results:", data);
+    console.log(`Found ${data?.length || 0} routes containing "Praia"`);
+    
+    // Test should pass if we find exactly 9 routes
+    const testPassed = (data?.length || 0) === 9;
+    console.log(`Test ${testPassed ? 'PASSED' : 'FAILED'}: Expected 9 results, got ${data?.length || 0}`);
+    
+    return testPassed;
+  } catch (error) {
+    console.error("Test failed with exception:", error);
+    return false;
+  }
+}
+
 // Auto-run tests when this module is imported
 async function runTests() {
   console.log("=== Running Bus Route Search Tests ===");
   await testFerrolSearch();
   await testRoute34Search();
   await testRoute40Search();
+  await testPraiaSearch();
   console.log("=== Tests Completed ===");
 }
 
