@@ -65,11 +65,48 @@ export async function testRoute34Search(): Promise<boolean> {
   }
 }
 
+export async function testRoute40Search(): Promise<boolean> {
+  try {
+    console.log("Testing Route 40 search (XG64201601: Serantes → San Xurxo)...");
+    console.log("Searching for third stop: 'San Xurxo'");
+    
+    // Test using the search function for partial matching
+    const { data, error } = await (supabase as any).rpc('search_bus_routes', {
+      search_term: 'San Xurxo'
+    });
+    
+    if (error) {
+      console.error("Search error:", error);
+      return false;
+    }
+    
+    console.log("Search results:", data);
+    console.log(`Found ${data?.length || 0} routes containing "San Xurxo"`);
+    
+    // Check if we found the specific route XG64201601
+    const route40Found = data?.some((route: any) => route.service_id === 'XG64201601');
+    const testPassed = route40Found;
+    
+    console.log(`Test ${testPassed ? 'PASSED' : 'FAILED'}: Expected to find route XG64201601, found: ${route40Found}`);
+    
+    if (route40Found) {
+      const route40 = data?.find((route: any) => route.service_id === 'XG64201601');
+      console.log("Route 40 details:", route40);
+    }
+    
+    return testPassed;
+  } catch (error) {
+    console.error("Test failed with exception:", error);
+    return false;
+  }
+}
+
 // Auto-run tests when this module is imported
 async function runTests() {
   console.log("=== Running Bus Route Search Tests ===");
   await testFerrolSearch();
   await testRoute34Search();
+  await testRoute40Search();
   console.log("=== Tests Completed ===");
 }
 
