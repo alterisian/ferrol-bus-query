@@ -21,6 +21,7 @@ const Index = () => {
   const [results, setResults] = useState<BusRoute[]>([]);
   const [allStops, setAllStops] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
+  const [showNoResults, setShowNoResults] = useState(false);
   const { toast } = useToast();
 
   // Fetch all stops and run test on component mount
@@ -39,6 +40,35 @@ const Index = () => {
     testFerrolSearch();
   }, []);
 
+  // Auto search when query is 2+ characters
+  useEffect(() => {
+    const autoSearch = async () => {
+      if (query.trim().length >= 2) {
+        setLoading(true);
+        setShowNoResults(false);
+        try {
+          const { data, error } = await (supabase as any).rpc('search_bus_routes', {
+            search_term: query.trim()
+          });
+
+          if (error) throw error;
+          setResults(data || []);
+        } catch (error) {
+          console.error('Auto search error:', error);
+          setResults([]);
+        } finally {
+          setLoading(false);
+        }
+      } else {
+        setResults([]);
+        setShowNoResults(false);
+      }
+    };
+
+    const timeoutId = setTimeout(autoSearch, 300); // Debounce
+    return () => clearTimeout(timeoutId);
+  }, [query]);
+
   const handleSearch = async () => {
     if (!query.trim()) {
       toast({
@@ -50,6 +80,7 @@ const Index = () => {
     }
 
     setLoading(true);
+    setShowNoResults(false);
     try {
       // Search for routes using partial matching across origin, destination, and stops
       const { data, error } = await (supabase as any).rpc('search_bus_routes', {
@@ -61,12 +92,16 @@ const Index = () => {
       }
 
       setResults(data || []);
+      if ((data || []).length === 0) {
+        setShowNoResults(true);
+      }
       toast({
         title: "Search completed",
         description: `Found ${(data || []).length} routes containing "${query}"`,
       });
     } catch (error) {
       console.error('Search error:', error);
+      setShowNoResults(true);
       toast({
         title: "Search failed",
         description: "There was an error searching for bus routes",
@@ -170,7 +205,7 @@ const Index = () => {
           </div>
         )}
 
-        {query && results.length === 0 && !loading && (
+        {showNoResults && !loading && (
           <Card className="text-center p-8">
             <CardContent>
               <p className="text-muted-foreground">
