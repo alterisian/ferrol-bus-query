@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Clock } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
+import { useTranslation } from "@/hooks/useTranslation";
 
 interface ScheduleData {
   stop_name: string;
@@ -17,6 +18,7 @@ interface RouteScheduleProps {
 const RouteSchedule = ({ routeId }: RouteScheduleProps) => {
   const [scheduleData, setScheduleData] = useState<ScheduleData[]>([]);
   const [loading, setLoading] = useState(false);
+  const { t } = useTranslation();
 
   // Get current day of week
   const getCurrentDay = () => {
@@ -65,7 +67,7 @@ const RouteSchedule = ({ routeId }: RouteScheduleProps) => {
           <Clock className="h-4 w-4" />
           {currentDay.charAt(0).toUpperCase() + currentDay.slice(1)}
         </div>
-        <p className="text-sm text-muted-foreground">No schedule available for today</p>
+        <p className="text-sm text-muted-foreground">{t("noScheduleData")}</p>
       </div>
     );
   }

@@ -6,8 +6,10 @@ import { Badge } from "@/components/ui/badge";
 import { Search, Bus, MapPin } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
+import { useTranslation } from "@/hooks/useTranslation";
 import { testFerrolSearch } from "@/utils/searchTest";
 import RouteSchedule from "@/components/RouteSchedule";
+import LanguageSwitcher from "@/components/LanguageSwitcher";
 
 interface BusRoute {
   id: string;
@@ -24,6 +26,7 @@ const Index = () => {
   const [loading, setLoading] = useState(false);
   const [showNoResults, setShowNoResults] = useState(false);
   const { toast } = useToast();
+  const { t } = useTranslation();
 
   // Fetch all stops and run test on component mount
   useEffect(() => {
@@ -73,8 +76,8 @@ const Index = () => {
   const handleSearch = async () => {
     if (!query.trim()) {
       toast({
-        title: "Please enter a search term",
-        description: "Enter a stop name to search for bus routes",
+        title: t("pleaseEnterSearchTerm"),
+        description: t("pleaseEnterSearchTermDesc"),
         variant: "destructive",
       });
       return;
@@ -97,15 +100,15 @@ const Index = () => {
         setShowNoResults(true);
       }
       toast({
-        title: "Search completed",
-        description: `Found ${(data || []).length} routes containing "${query}"`,
+        title: t("searchCompleted"),
+        description: `${t("foundRoutes", { count: (data || []).length })} containing "${query}"`,
       });
     } catch (error) {
       console.error('Search error:', error);
       setShowNoResults(true);
       toast({
-        title: "Search failed",
-        description: "There was an error searching for bus routes",
+        title: t("searchFailed"),
+        description: t("searchFailedDesc"),
         variant: "destructive",
       });
     } finally {
@@ -122,20 +125,23 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-background p-6">
       <div className="max-w-4xl mx-auto">
+        <div className="absolute top-6 right-6">
+          <LanguageSwitcher />
+        </div>
         <div className="text-center mb-8">
           <h1 className="text-4xl font-bold mb-4 flex items-center justify-center gap-3">
             <Bus className="text-primary" />
-            Ferrol Bus Search
+            {t("title")}
           </h1>
           <p className="text-xl text-muted-foreground">
-            Search for bus routes by stop name in Ferrol, Galicia
+            {t("subtitle")}
           </p>
         </div>
 
         {allStops.length > 0 && (
           <Card className="mb-8">
             <CardHeader>
-              <CardTitle className="text-lg">Available Stops</CardTitle>
+              <CardTitle className="text-lg">{t("availableStops")}</CardTitle>
             </CardHeader>
             <CardContent>
               <div className="flex flex-wrap gap-2">
@@ -158,7 +164,7 @@ const Index = () => {
           <div className="relative flex-1">
             <Search className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
             <Input
-              placeholder="Enter a stop name (e.g., Narón, Ferrol, Cedeira...)"
+              placeholder={t("searchPlaceholder")}
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               onKeyPress={handleKeyPress}
@@ -166,14 +172,14 @@ const Index = () => {
             />
           </div>
           <Button onClick={handleSearch} disabled={loading}>
-            {loading ? "Searching..." : "Search"}
+            {loading ? t("searching") : t("searchButton")}
           </Button>
         </div>
 
         {results.length > 0 && (
           <div className="space-y-4">
             <h2 className="text-2xl font-semibold">
-              Found {results.length} route{results.length !== 1 ? 's' : ''}
+              {results.length === 1 ? t("foundRoutes", { count: results.length }) : t("foundRoutesPlural", { count: results.length })}
             </h2>
             {results.map((route) => (
               <Card key={route.id} className="w-full">
@@ -188,7 +194,7 @@ const Index = () => {
                     <div className="space-y-2">
                       <h4 className="font-medium flex items-center gap-2">
                         <MapPin className="h-4 w-4" />
-                        Stops:
+                        {t("stops")}:
                       </h4>
                       <div className="flex flex-wrap gap-2">
                         {route.stops.map((stop, index) => (
@@ -216,7 +222,7 @@ const Index = () => {
           <Card className="text-center p-8">
             <CardContent>
               <p className="text-muted-foreground">
-                No routes found containing "{query}". Try searching for stops like "Narón", "Ferrol", or "Cedeira".
+                {t("noResultsFound", { query })}
               </p>
             </CardContent>
           </Card>
