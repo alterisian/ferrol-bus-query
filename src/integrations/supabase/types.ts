@@ -44,6 +44,134 @@ export type Database = {
         }
         Relationships: []
       }
+      route_stops: {
+        Row: {
+          bus_route_id: string
+          id: number
+          stop_id: number
+          stop_order: number
+        }
+        Insert: {
+          bus_route_id: string
+          id?: number
+          stop_id: number
+          stop_order: number
+        }
+        Update: {
+          bus_route_id?: string
+          id?: number
+          stop_id?: number
+          stop_order?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "route_stops_bus_route_id_fkey"
+            columns: ["bus_route_id"]
+            isOneToOne: false
+            referencedRelation: "bus_routes"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "route_stops_stop_id_fkey"
+            columns: ["stop_id"]
+            isOneToOne: false
+            referencedRelation: "stops"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      schedule_stop_times: {
+        Row: {
+          arrival_time: string
+          id: string
+          schedule_id: string
+          stop_id: number
+        }
+        Insert: {
+          arrival_time: string
+          id?: string
+          schedule_id: string
+          stop_id: number
+        }
+        Update: {
+          arrival_time?: string
+          id?: string
+          schedule_id?: string
+          stop_id?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "schedule_stop_times_schedule_id_fkey"
+            columns: ["schedule_id"]
+            isOneToOne: false
+            referencedRelation: "schedules"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "schedule_stop_times_stop_id_fkey"
+            columns: ["stop_id"]
+            isOneToOne: false
+            referencedRelation: "stops"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      schedules: {
+        Row: {
+          bus_route_id: string
+          day_type: string
+          departure_time: string
+          id: string
+        }
+        Insert: {
+          bus_route_id: string
+          day_type: string
+          departure_time: string
+          id?: string
+        }
+        Update: {
+          bus_route_id?: string
+          day_type?: string
+          departure_time?: string
+          id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "schedules_bus_route_id_fkey"
+            columns: ["bus_route_id"]
+            isOneToOne: false
+            referencedRelation: "bus_routes"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      stops: {
+        Row: {
+          created_at: string | null
+          id: number
+          lat: number | null
+          lng: number | null
+          name: string
+          updated_at: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          id?: number
+          lat?: number | null
+          lng?: number | null
+          name: string
+          updated_at?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          id?: number
+          lat?: number | null
+          lng?: number | null
+          name?: string
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
@@ -53,6 +181,16 @@ export type Database = {
         Args: Record<PropertyKey, never>
         Returns: {
           stop: string
+        }[]
+      }
+      get_route_schedules: {
+        Args: { route_id: string; target_day_type?: string }
+        Returns: {
+          stop_name: string
+          stop_order: number
+          day_type: string
+          arrival_time: string
+          departure_time: string
         }[]
       }
       search_bus_routes: {
