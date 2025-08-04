@@ -7,6 +7,7 @@ import { Search, Bus, MapPin } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { testFerrolSearch } from "@/utils/searchTest";
+import RouteSchedule from "@/components/RouteSchedule";
 
 interface BusRoute {
   id: string;
@@ -183,20 +184,26 @@ const Index = () => {
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <div className="space-y-2">
-                    <h4 className="font-medium flex items-center gap-2">
-                      <MapPin className="h-4 w-4" />
-                      Stops:
-                    </h4>
-                    <div className="flex flex-wrap gap-2">
-                      {route.stops.map((stop, index) => (
-                        <Badge
-                          key={index}
-                          variant={stop.toLowerCase().includes(query.toLowerCase()) ? "default" : "secondary"}
-                        >
-                          {stop}
-                        </Badge>
-                      ))}
+                  <div className="space-y-4">
+                    <div className="space-y-2">
+                      <h4 className="font-medium flex items-center gap-2">
+                        <MapPin className="h-4 w-4" />
+                        Stops:
+                      </h4>
+                      <div className="flex flex-wrap gap-2">
+                        {route.stops.map((stop, index) => (
+                          <Badge
+                            key={index}
+                            variant={stop.toLowerCase().includes(query.toLowerCase()) ? "default" : "secondary"}
+                          >
+                            {stop}
+                          </Badge>
+                        ))}
+                      </div>
+                    </div>
+                    
+                    <div className="border-t pt-4">
+                      <RouteSchedule routeId={route.id} />
                     </div>
                   </div>
                 </CardContent>
