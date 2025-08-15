@@ -5,6 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Search, Bus, MapPin } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
+import { Link } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
 import { useTranslation } from "@/hooks/useTranslation";
 import { testFerrolSearch } from "@/utils/searchTest";
@@ -140,8 +141,13 @@ const Index = () => {
 
         {allStops.length > 0 && (
           <Card className="mb-8">
-            <CardHeader>
+            <CardHeader className="flex flex-row items-center justify-between">
               <CardTitle className="text-lg">{t("availableStops")}</CardTitle>
+              <Link to="/about">
+                <Button variant="outline" size="sm">
+                  About and Links
+                </Button>
+              </Link>
             </CardHeader>
             <CardContent>
               <div className="flex flex-wrap gap-2">
