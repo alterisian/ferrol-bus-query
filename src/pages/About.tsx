@@ -151,13 +151,26 @@ const About = () => {
               <div className="flex items-center gap-4 pt-4">
                 <Button variant="outline" size="sm" asChild>
                   <a 
-                    href="https://github.com" 
+                    href="https://github.com/alterisian/ferrol-bus-query" 
                     target="_blank" 
                     rel="noopener noreferrer"
                     className="flex items-center gap-2"
                   >
                     <Github className="h-4 w-4" />
                     View Source Code
+                  </a>
+                </Button>
+              </div>
+              <div className="flex items-center gap-4 pt-4">
+                <Button variant="outline" size="sm" asChild>
+                  <a 
+                    href="https://github.com/alterisian/ferrol-bus-query/issues" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-2"
+                  >
+                    <Github className="h-4 w-4" />
+                    Tasks / Roadmap
                   </a>
                 </Button>
               </div>
