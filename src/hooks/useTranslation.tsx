@@ -18,7 +18,7 @@ export const TranslationProvider = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     const loadTranslations = async () => {
       try {
-        const response = await fetch(`/src/locales/${language}.yml`);
+        const response = await fetch(`/locales/${language}.yml`);
         const yamlText = await response.text();
         const parsed = yaml.load(yamlText) as { [key: string]: any };
         setTranslations(parsed || {});
