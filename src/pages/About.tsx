@@ -15,13 +15,20 @@ const About = () => {
           <LanguageSwitcher />
         </div>
         
-        <div className="flex items-center gap-4 mb-8">
+        <div className="flex items-center justify-between mb-8">
           <Link to="/">
             <Button variant="outline" size="sm">
               <ArrowLeft className="h-4 w-4 mr-2" />
               Back to Search
             </Button>
           </Link>
+          <Button 
+            data-tally-open="n0WeEZ" 
+            data-tally-auto-close="2000"
+            className="bg-primary text-primary-foreground hover:bg-primary/90"
+          >
+            Give Feedback
+          </Button>
         </div>
 
         <div className="text-center mb-8">

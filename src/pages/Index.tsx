@@ -143,11 +143,21 @@ const Index = () => {
           <Card className="mb-8">
             <CardHeader className="flex flex-row items-center justify-between">
               <CardTitle className="text-lg">{t("availableStops")}</CardTitle>
-              <Link to="/about">
-                <Button variant="outline" size="sm">
-                  About and Links
+              <div className="flex gap-2">
+                <Link to="/about">
+                  <Button variant="outline" size="sm">
+                    About and Links
+                  </Button>
+                </Link>
+                <Button 
+                  variant="outline" 
+                  size="sm"
+                  data-tally-open="n0WeEZ" 
+                  data-tally-auto-close="2000"
+                >
+                  Feedback
                 </Button>
-              </Link>
+              </div>
             </CardHeader>
             <CardContent>
               <div className="flex flex-wrap gap-2">
