@@ -66,6 +66,38 @@ const About = () => {
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="space-y-3">
+                <div className="font-medium text-sm text-muted-foreground mb-2">Bus Services</div>
+                <a 
+                  href="https://www.alsaferrol.es/en/lines" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-2 text-primary hover:underline"
+                >
+                  <ExternalLink className="h-4 w-4" />
+                  ALSA Ferrol - Central Ferrol Area Buses
+                </a>
+                <a 
+                  href="https://www.monbus.es/es/search/results" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-2 text-primary hover:underline"
+                >
+                  <ExternalLink className="h-4 w-4" />
+                  Monbus - Ferrol, Pontedeume & Regional Routes
+                </a>
+                
+                <div className="font-medium text-sm text-muted-foreground mb-2 mt-4">Alternative Transport</div>
+                <a 
+                  href="https://biciferrolterra.com" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-2 text-primary hover:underline"
+                >
+                  <ExternalLink className="h-4 w-4" />
+                  Ferrol Bici - Bicycle Sharing Scheme
+                </a>
+                
+                <div className="font-medium text-sm text-muted-foreground mb-2 mt-4">Official Resources</div>
                 <a 
                   href="https://www.ferrol.es" 
                   target="_blank" 
@@ -83,15 +115,6 @@ const About = () => {
                 >
                   <ExternalLink className="h-4 w-4" />
                   Galicia Public Transport (Xunta de Galicia)
-                </a>
-                <a 
-                  href="https://www.monbus.es" 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-2 text-primary hover:underline"
-                >
-                  <ExternalLink className="h-4 w-4" />
-                  Monbus - Regional Bus Service
                 </a>
                 <a 
                   href="https://www.renfe.com" 
