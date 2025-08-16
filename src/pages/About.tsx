@@ -103,6 +103,15 @@ const About = () => {
                   <ExternalLink className="h-4 w-4" />
                   Ferrol Bici - Bicycle Sharing Scheme
                 </a>
+                <a 
+                  href="https://claude.ai/public/artifacts/71437703-2b02-44cc-9d53-67c9ca537952" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-2 text-primary hover:underline"
+                >
+                  <ExternalLink className="h-4 w-4" />
+                  Cruceros Rías Altas - Ferry Services (Ferrol ⇄ Mugardos)
+                </a>
                 
                 <div className="font-medium text-sm text-muted-foreground mb-2 mt-4">Official Resources</div>
                 <a 
@@ -131,6 +140,17 @@ const About = () => {
                 >
                   <ExternalLink className="h-4 w-4" />
                   RENFE - Train Services
+                </a>
+                
+                <div className="font-medium text-sm text-muted-foreground mb-2 mt-4">Magdalena</div>
+                <a 
+                  href="https://ferrolgrid.fly.dev/" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-2 text-primary hover:underline"
+                >
+                  <ExternalLink className="h-4 w-4" />
+                  Ferrol Grid - Local Services & Information
                 </a>
               </div>
             </CardContent>
